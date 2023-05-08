@@ -46,7 +46,7 @@ public class Spending {
     @Column(name="estableshiment")
     private String estableshiment;
 
-    @ManyToOne
+    @OneToOne
     private Card card;
 
     public Spending(Long id, LocalDate dateSpending, Integer amountInCents, String uuid, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Bank bank, Type type, Card card) {

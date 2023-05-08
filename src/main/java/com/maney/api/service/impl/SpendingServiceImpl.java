@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,16 +48,22 @@ public class SpendingServiceImpl implements SpendingService {
     }
 
     @Override
-    public List<Spending> byPeriod(LocalDate dateToQuery, List<String> cardIds){
+    public ArrayList<Spending> byPeriod(LocalDate dateToQuery, List<String> cardIds){
+        //TODO FAZER PAGINAÇÃO DA LISTA DE RETORNO
+        ArrayList<Spending> spending = new ArrayList<>();
 
         cardIds.forEach( id -> {
             Optional<Card> currentCard = cardRepository.findById(Long.parseLong(id));
 
             List<LocalDate> period = DateUtils.parsePeriod(dateToQuery, currentCard.get(), this.DAYS_TO_CLOSE_CARD);
 
+            LocalDate startDate = period.get(0);
+            LocalDate endDate = period.get(1);
+
+            spending.addAll(spendingRepository.findByDateSpendingBetweenAndCard(startDate, endDate, currentCard.get()));
         });
 
 
-        return List.of();
+        return spending;
     }
 }

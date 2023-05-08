@@ -46,8 +46,8 @@ public class SpendingController {
 
     @GetMapping("/period")
     @ResponseBody
-    public void period(@RequestParam String period, @RequestParam List<String> brand) {
+    public List<Spending> period(@RequestParam String period, @RequestParam List<String> brand) {
 
-        spendingService.byPeriod(LocalDate.parse(period), brand);
+        return spendingService.byPeriod(LocalDate.parse(period), brand);
     }
 }
