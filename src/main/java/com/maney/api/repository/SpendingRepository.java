@@ -1,5 +1,6 @@
 package com.maney.api.repository;
 
+import com.maney.api.constants.Tag;
 import com.maney.api.model.Card;
 import com.maney.api.model.Spending;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,5 +16,7 @@ public interface SpendingRepository extends JpaRepository<Spending, Long> {
 
     //Pageable pageable
     List<Spending> findByDateSpendingBetweenAndCard(@Param("startDate") LocalDate startDate,@Param("endDate") LocalDate endDate, @Param("card") Card cardId);
+
+    List<Spending> findByDateSpendingBetweenAndTag(@Param("startDate") LocalDate startDate,@Param("endDate") LocalDate endDate, @Param("tag") Tag tag);
 
 }

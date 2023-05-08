@@ -48,8 +48,8 @@ public class SpendingServiceImpl implements SpendingService {
     }
 
     @Override
-    public ArrayList<Spending> byPeriod(LocalDate dateToQuery, List<String> cardIds){
-        //TODO FAZER PAGINAÇÃO DA LISTA DE RETORNO
+    public List<Spending> byPeriod(LocalDate dateToQuery, List<String> cardIds){
+        //TODO FAZER PAGINAÇÃO DESSE RETORNO
         ArrayList<Spending> spending = new ArrayList<>();
 
         cardIds.forEach( id -> {

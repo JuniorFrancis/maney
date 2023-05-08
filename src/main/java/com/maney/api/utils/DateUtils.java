@@ -5,7 +5,6 @@ import com.maney.api.model.Card;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class DateUtils {
         LocalDate initialDate = rawDate.withDayOfMonth(dueDay).minusDays(daysToCloseCard);
         LocalDate finalDate;
 
-        if(card.getBrand().equals(Brand.VISA)) {
+        if(card.getBrand() != null && card.getBrand().equals(Brand.VISA)) {
             finalDate = initialDate.plusMonths(1);
         } else {
             finalDate = initialDate.minusMonths(1);

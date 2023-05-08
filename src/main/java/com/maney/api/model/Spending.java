@@ -61,6 +61,7 @@ public class Spending {
     }
 
     public Spending() {
+        this.createdAt = LocalDateTime.now();
 
     }
 
