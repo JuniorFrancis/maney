@@ -1,5 +1,0 @@
-server:
-  port: 8081
-
-card:
-  days_to_close_card: 7
