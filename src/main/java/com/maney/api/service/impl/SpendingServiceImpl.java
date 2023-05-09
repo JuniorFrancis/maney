@@ -7,8 +7,10 @@ import com.maney.api.repository.SpendingRepository;
 import com.maney.api.service.SpendingService;
 import com.maney.api.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import static com.maney.api.utils.Validator.checkNotNull;
+import static com.maney.api.utils.Validator.isCardPresent;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -52,8 +54,12 @@ public class SpendingServiceImpl implements SpendingService {
         //TODO FAZER PAGINAÇÃO DESSE RETORNO
         ArrayList<Spending> spending = new ArrayList<>();
 
+        checkNotNull(dateToQuery);
+
         cardIds.forEach( id -> {
             Optional<Card> currentCard = cardRepository.findById(Long.parseLong(id));
+
+            isCardPresent(currentCard);
 
             List<LocalDate> period = DateUtils.parsePeriod(dateToQuery, currentCard.get(), this.DAYS_TO_CLOSE_CARD);
 
