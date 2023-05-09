@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.maney.api.utils.Validator.checkNotNull;
+
 @Service
 public class CardServiceImpl implements CardService {
 
@@ -26,6 +28,8 @@ public class CardServiceImpl implements CardService {
     }
 
     public Optional<Card> getCard(Long id) {
+
+        checkNotNull(id);
 
         return cardRepository.findById(id);
     }
