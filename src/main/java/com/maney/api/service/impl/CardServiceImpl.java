@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.maney.api.utils.Validator.checkNotNull;
+import static com.maney.api.utils.Validator.isCardPresent;
 
 @Service
 public class CardServiceImpl implements CardService {
@@ -31,6 +32,10 @@ public class CardServiceImpl implements CardService {
 
         checkNotNull(id);
 
-        return cardRepository.findById(id);
+        Optional<Card> card = cardRepository.findById(id);
+
+        isCardPresent(card, "Id {id} não encontrado");
+
+        return card;
     }
 }

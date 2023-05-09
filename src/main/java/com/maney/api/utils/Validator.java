@@ -19,6 +19,12 @@ public class Validator {
         }
     }
 
+    public static void isCardPresent(Optional<Card> card, String message ){
+        if(card.isEmpty()) {
+            throw new DefaultException(message);
+        }
+    }
+
     public static <T> void checkNotNull(T reference) {
          if(reference == null) {
              throw new DefaultException("nulo");
