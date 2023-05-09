@@ -3,6 +3,8 @@ package com.maney.api.controller;
 import com.maney.api.constants.Brand;
 import com.maney.api.model.Spending;
 import com.maney.api.service.impl.SpendingServiceImpl;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.util.Optional;
 @RequestMapping("/spending")
 public class SpendingController {
 
+    //TODO Adicionar log4j e logar eventos.
 
     @Autowired
     SpendingServiceImpl spendingService;
@@ -46,8 +49,8 @@ public class SpendingController {
 
     @GetMapping("/period")
     @ResponseBody
-    public void period(@RequestParam String period, @RequestParam List<String> brand) {
+    public List<Spending> byPeriod(@Nonnull @RequestParam String period, @Nonnull @RequestParam List<String> brand) {
 
-        spendingService.byPeriod(LocalDate.parse(period), brand);
+        return spendingService.byPeriod(LocalDate.parse(period), brand);
     }
 }
