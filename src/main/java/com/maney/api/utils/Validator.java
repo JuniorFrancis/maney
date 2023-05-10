@@ -37,4 +37,16 @@ public class Validator {
         }
     }
 
+    public static void checkIsNotZero(Integer value) {
+        if(value <= 0) {
+            throw new DefaultException("");
+        }
+    }
+
+    public static void checkIsNotZero(Long value) {
+        if(value <= 0) {
+            throw new DefaultException("");
+        }
+    }
+
 }
