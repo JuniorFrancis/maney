@@ -1,4 +1,4 @@
-/gradle/
+/.gradle/
 /build/
 /.idea/
 
@@ -27,3 +27,4 @@
 hs_err_pid*
 replay_pid*
 
+/src/main/resources/application.properties
