@@ -21,12 +21,12 @@ import java.util.Optional;
 public class SpendingServiceImpl implements SpendingService {
 
     @Autowired
+    DateUtils dateUtils;
+    @Autowired
     SpendingRepository spendingRepository;
 
     @Autowired
     CardRepository cardRepository;
-
-    private final Integer DAYS_TO_CLOSE_CARD = 7;
 
     @Override
     public void register(Spending spending) {
@@ -60,8 +60,7 @@ public class SpendingServiceImpl implements SpendingService {
             Optional<Card> currentCard = cardRepository.findById(Long.parseLong(id));
 
             isCardPresent(currentCard);
-
-            List<LocalDate> period = DateUtils.parsePeriod(dateToQuery, currentCard.get(), this.DAYS_TO_CLOSE_CARD);
+            List<LocalDate> period = dateUtils.parsePeriod(dateToQuery, currentCard.get());
 
             LocalDate startDate = period.get(0);
             LocalDate endDate = period.get(1);
