@@ -5,12 +5,12 @@ import com.maney.api.model.Spending;
 import com.maney.api.repository.CardRepository;
 import com.maney.api.repository.SpendingRepository;
 import com.maney.api.service.SpendingService;
-import com.maney.api.utils.DateUtils;
+import com.maney.api.handlers.DateHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.maney.api.utils.Validator.checkNotNull;
-import static com.maney.api.utils.Validator.isCardPresent;
+import static com.maney.api.handlers.ValidatorHandler.checkNotNull;
+import static com.maney.api.handlers.ValidatorHandler.isCardPresent;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.Optional;
 public class SpendingServiceImpl implements SpendingService {
 
     @Autowired
-    DateUtils dateUtils;
+    DateHandler dateHandler;
     @Autowired
     SpendingRepository spendingRepository;
 
@@ -60,7 +60,7 @@ public class SpendingServiceImpl implements SpendingService {
             Optional<Card> currentCard = cardRepository.findById(Long.parseLong(id));
 
             isCardPresent(currentCard);
-            List<LocalDate> period = dateUtils.parsePeriod(dateToQuery, currentCard.get());
+            List<LocalDate> period = dateHandler.parsePeriod(dateToQuery, currentCard.get());
 
             LocalDate startDate = period.get(0);
             LocalDate endDate = period.get(1);

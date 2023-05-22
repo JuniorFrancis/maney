@@ -1,4 +1,4 @@
-package com.maney.api.utils;
+package com.maney.api.handlers;
 
 import com.maney.api.constants.Brand;
 import com.maney.api.model.Card;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Component
-public class DateUtils {
+public class DateHandler {
 
     @Autowired
     CardRepository cardRepository;

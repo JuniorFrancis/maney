@@ -1,11 +1,11 @@
-package com.maney.api.utils;
+package com.maney.api.handlers;
 
 import com.maney.api.exceptions.DefaultException;
 import com.maney.api.model.Card;
 
 import java.util.Optional;
 
-public class Validator {
+public class ValidatorHandler {
 
     public static void isCardPresent(Card card ){
         if(card == null) {

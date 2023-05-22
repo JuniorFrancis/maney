@@ -7,11 +7,10 @@ import com.maney.api.service.RevenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static com.maney.api.utils.Validator.*;
+import static com.maney.api.handlers.ValidatorHandler.*;
 
 
 @Service
