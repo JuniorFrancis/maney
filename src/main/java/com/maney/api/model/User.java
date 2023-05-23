@@ -1,18 +1,18 @@
 package com.maney.api.model;
 
 import com.maney.api.constants.Role;
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
+@Entity
+@Table(name="users")
 public class User implements UserDetails {
-
-    public User() {
-
-    }
 
     public User(String firstname, String email, String password, Role role) {
         this.firstname = firstname;
@@ -21,12 +21,20 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+    public User() {
+
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String firstname;
 
     private String email;
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     public String getFirstname() {
@@ -89,5 +97,40 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public static class Builder {
+
+        public String firstname;
+
+        public String email;
+
+        public String password;
+
+        public Role role;
+
+        public Builder withFirstname(String firstname) {
+            this.firstname = firstname;
+            return this;
+        }
+
+        public Builder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder withPassword(String password){
+            this.password = password;
+            return this;
+        }
+
+        public Builder withRole(Role role){
+            this.role = role;
+            return this;
+        }
+
+        public User build(){
+            return new User(firstname, email, password, role);
+        }
     }
 }

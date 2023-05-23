@@ -20,7 +20,7 @@ import java.util.function.Function;
 public class JwtServiceImpl implements JwtService {
 
     @Value("${security.key}")
-    private static final String SECRET_KEY = "";
+    private String SECRET_KEY;
     //TODO TESTAR SE VALOR ESTÁ CHEGANDO
 
     public String extractUsername(String token){
@@ -36,13 +36,12 @@ public class JwtServiceImpl implements JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
-        Date currentDate = new Date(System.currentTimeMillis());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
-                .setIssuedAt( new Date(System.currentTimeMillis()))
-                .setExpiration( new Date(System.currentTimeMillis() + 1000 * 60 * 24 ))
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -52,7 +51,7 @@ public class JwtServiceImpl implements JwtService {
                 .parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
     }
 
@@ -64,7 +63,7 @@ public class JwtServiceImpl implements JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails){
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && isTokenExpired(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {

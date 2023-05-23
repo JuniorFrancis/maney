@@ -23,7 +23,6 @@ public class SecurityConfiguration {
     }
 
     private final AuthenticationFilter jwtAuthFilter;
-
     private final AuthenticationProvider authenticationProvider;
 
 
@@ -33,7 +32,7 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("")
+                .requestMatchers("/api/v1/auth/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

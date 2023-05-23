@@ -20,8 +20,9 @@ public class AuthenticationResponse {
 
         public String token;
 
-        public void withToken(String token) {
+        public Builder withToken(String token) {
             this.token = token;
+            return this;
         }
 
         public AuthenticationResponse build(){

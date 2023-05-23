@@ -2,9 +2,8 @@ package com.maney.api.model.request;
 
 public class RegisterRequest {
 
-    public RegisterRequest(String firstname, String lastname, String email, String password) {
+    public RegisterRequest(String firstname,String email, String password) {
         this.firstname = firstname;
-        this.lastname = lastname;
         this.email = email;
         this.password = password;
     }
@@ -13,8 +12,6 @@ public class RegisterRequest {
     }
 
     private String firstname;
-
-    private String lastname;
 
     private String email;
 
@@ -26,14 +23,6 @@ public class RegisterRequest {
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
     }
 
     public String getEmail() {
@@ -56,18 +45,12 @@ public class RegisterRequest {
 
         public String firstname;
 
-        public String lastname;
-
         public String email;
 
         public String password;
 
         public void withFirstname(String firstname){
             this.firstname = firstname;
-        }
-
-        public void withLastname(String lastname){
-            this.lastname = lastname;
         }
 
         public void withEmail(String email){
@@ -79,7 +62,7 @@ public class RegisterRequest {
         }
 
         public RegisterRequest build() {
-            return new RegisterRequest(firstname, lastname, email, password);
+            return new RegisterRequest(firstname, email, password);
         }
 
     }

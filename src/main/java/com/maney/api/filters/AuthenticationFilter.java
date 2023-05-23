@@ -28,7 +28,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
-    @Autowired
     private final JwtServiceImpl jwtService;
 
     private final UserDetailsService userDetailsService;
@@ -43,7 +42,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         final String token;
         final String userEmail;
 
-        if(authHeader == null || authHeader.startsWith(START_STRING_TOKEN)){
+        if(authHeader == null || !authHeader.startsWith(START_STRING_TOKEN)){
             filterChain.doFilter(request, response);
             return;
         }
@@ -63,6 +62,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 authToken.setDetails(
                     new WebAuthenticationDetailsSource().buildDetails(request)
                 );
+                SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
 

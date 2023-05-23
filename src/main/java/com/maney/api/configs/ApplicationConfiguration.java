@@ -17,12 +17,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class ApplicationConfiguration {
 
-    private final UserRepository userRepository;
-
     @Autowired
     public ApplicationConfiguration(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    private final UserRepository userRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -31,7 +31,6 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-//    @Qualifier("userDetailsService")
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
@@ -40,6 +39,7 @@ public class ApplicationConfiguration {
         return authProvider;
     }
 
+    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
         return config.getAuthenticationManager();
     }
