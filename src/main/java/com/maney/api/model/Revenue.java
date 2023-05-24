@@ -10,19 +10,16 @@ import java.time.LocalDateTime;
 @Table(name="revenues")
 public class Revenue {
 
-    public Revenue(Long id, RevenueType revenueType, Integer amount, Boolean isFixed, LocalDate paymentDate) {
+    public Revenue(Long id, RevenueType revenueType, Integer amount, Boolean isFixed, LocalDate paymentDate, User user) {
         this.id = id;
         this.revenueType = revenueType;
         this.amount = amount;
         this.isFixed = isFixed;
         this.paymentDate = paymentDate;
+        this.user = user;
     }
 
     public Revenue() {
-
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-
     }
 
     @Id
@@ -47,6 +44,9 @@ public class Revenue {
 
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    private User user;
     public Long getId() {
         return id;
     }
@@ -103,4 +103,11 @@ public class Revenue {
         this.updatedAt = updatedAt;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
 }

@@ -49,6 +49,9 @@ public class Spending {
     @OneToOne
     private Card card;
 
+    @ManyToOne
+    private User user;
+
     public Spending(Long id, LocalDate dateSpending, Integer amountInCents, String uuid, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Bank bank, Type type, Card card) {
         this.id = id;
         this.dateSpending = dateSpending;
@@ -152,7 +155,11 @@ public class Spending {
         this.card = card;
     }
 
-    public static class Builder {
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
     }
 }

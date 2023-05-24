@@ -1,5 +1,6 @@
 package com.maney.api.service.impl;
 
+import com.maney.api.handlers.UserHandler;
 import com.maney.api.model.Card;
 import com.maney.api.model.Revenue;
 import com.maney.api.model.Spending;
@@ -22,15 +23,24 @@ import static com.maney.api.handlers.ValidatorHandler.checkNotNull;
 public class AccountingServiceImpl implements AccountingService {
 
     @Autowired
-    DateHandler dateHandler;
+    public AccountingServiceImpl(DateHandler dateHandler, SpendingRepository spendingRepository, RevenueServiceImpl revenueService, UserHandler userHandler) {
+        this.dateHandler = dateHandler;
+        this.spendingRepository = spendingRepository;
+        this.revenueService = revenueService;
+        this.userHandler = userHandler;
+    }
 
-    @Autowired
-    SpendingRepository spendingRepository;
+    private final DateHandler dateHandler;
 
-    @Autowired
-    RevenueServiceImpl revenueService;
+    private final SpendingRepository spendingRepository;
+
+    private final RevenueServiceImpl revenueService;
+
+    private final UserHandler userHandler;
+
+
     public AccountingResponse overview(LocalDate dateToQuery) {
-
+        Long userId = userHandler.getCurrentUser().getId();
         checkNotNull(dateToQuery);
 
         ArrayList<Spending> spending = new ArrayList<>();
@@ -38,7 +48,7 @@ public class AccountingServiceImpl implements AccountingService {
         Map<Card, List<LocalDate>> periods = dateHandler.parsePeriodToAllCards(dateToQuery);
 
         periods.forEach( (card, dates) -> {
-            List<Spending> currentSpending = spendingRepository.findByDateSpendingBetweenAndCard(dates.get(0), dates.get(1), card);
+            List<Spending> currentSpending = spendingRepository.findByDateSpendingBetweenAndCardAndUserId(dates.get(0), dates.get(1), card, userId);
             spending.addAll(currentSpending);
         });
 
