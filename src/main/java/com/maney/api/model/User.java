@@ -70,6 +70,10 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getPassword() {
         return password;
     }

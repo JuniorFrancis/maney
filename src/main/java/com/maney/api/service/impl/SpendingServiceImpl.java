@@ -1,5 +1,6 @@
 package com.maney.api.service.impl;
 
+import com.maney.api.handlers.UserHandler;
 import com.maney.api.model.Card;
 import com.maney.api.model.Spending;
 import com.maney.api.repository.CardRepository;
@@ -21,38 +22,41 @@ import java.util.Optional;
 public class SpendingServiceImpl implements SpendingService {
 
     @Autowired
-    DateHandler dateHandler;
-    @Autowired
-    SpendingRepository spendingRepository;
+    public SpendingServiceImpl(DateHandler dateHandler, SpendingRepository spendingRepository, CardRepository cardRepository, UserHandler userHandler) {
+        this.dateHandler = dateHandler;
+        this.spendingRepository = spendingRepository;
+        this.cardRepository = cardRepository;
+        this.userHandler = userHandler;
+    }
 
-    @Autowired
-    CardRepository cardRepository;
+    private final DateHandler dateHandler;
+    private final SpendingRepository spendingRepository;
+    private final CardRepository cardRepository;
+    private final UserHandler userHandler;
 
     @Override
     public void register(Spending spending) {
-
-        Optional<Card> card = cardRepository.findById(spending.getCard().getId());
-
+        spending.setUser(userHandler.getCurrentUser());
         spendingRepository.save(spending);
-
     }
 
     @Override
     public List<Spending> getSpending() {
-
-        return spendingRepository.findAll();
+        Long userId = userHandler.getCurrentUser().getId();
+        return spendingRepository.findByUserId(userId);
     }
 
     @Override
     public Optional<Spending> getSpent(Long id) {
-
-        return spendingRepository.findById(id);
+        Long userId = userHandler.getCurrentUser().getId();
+        return spendingRepository.findByIdAndUserId(id, userId);
     }
 
     @Override
     public List<Spending> byPeriod(LocalDate dateToQuery, List<String> cardIds){
         //TODO FAZER PAGINAÇÃO DESSE RETORNO
         ArrayList<Spending> spending = new ArrayList<>();
+        Long userId = userHandler.getCurrentUser().getId();
 
         checkNotNull(dateToQuery);
 
@@ -65,9 +69,15 @@ public class SpendingServiceImpl implements SpendingService {
             LocalDate startDate = period.get(0);
             LocalDate endDate = period.get(1);
 
-            spending.addAll(spendingRepository.findByDateSpendingBetweenAndCard(startDate, endDate, currentCard.get()));
-        });
+            spending.addAll(
+                    spendingRepository.findByDateSpendingBetweenAndCardAndUserId(
+                            startDate,
+                            endDate,
+                            currentCard.get(),
+                            userId
+                    ));
 
+        });
 
         return spending;
     }

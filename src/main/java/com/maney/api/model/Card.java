@@ -10,10 +10,6 @@ import java.time.LocalDateTime;
 @Table(name="cards")
 public class Card {
 
-    public Card(){
-
-    }
-
     public Card(Long id){
         this.id= id;
     }
@@ -22,11 +18,10 @@ public class Card {
         this.bank = bank;
         this.brand = brand;
         this.lastDigits = lastDigits;
+    }
 
-        LocalDateTime currentDate = LocalDateTime.now();
+    public Card(){
 
-        this.createdAt = currentDate;
-        this.updatedAt = currentDate;
     }
 
     @Id
@@ -52,6 +47,9 @@ public class Card {
 
     @Column(name="last_digits")
     private String lastDigits;
+
+    @ManyToOne
+    private User user;
 
     public Integer getDueDay() {
         return dueDay;
@@ -113,11 +111,11 @@ public class Card {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public User getUser() {
+        return user;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
