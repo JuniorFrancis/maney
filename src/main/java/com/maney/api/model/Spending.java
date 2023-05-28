@@ -1,5 +1,6 @@
 package com.maney.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maney.api.constants.Bank;
 import com.maney.api.constants.Tag;
 import com.maney.api.constants.Type;
@@ -50,6 +51,7 @@ public class Spending {
     private Card card;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     public Spending(Long id, LocalDate dateSpending, Integer amountInCents, String uuid, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Bank bank, Type type, Card card) {
