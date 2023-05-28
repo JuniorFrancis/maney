@@ -29,5 +29,8 @@ public interface SpendingRepository extends JpaRepository<Spending, Long> {
     List<Spending> findByUserId(Long userId);
 
     @Query(value = "SELECT tag, amount FROM Spending WHERE date_spending between ?1 AND ?2 AND user_id = ?3 GROUP BY tag ORDER BY amount DESC LIMIT 4", nativeQuery = true)
-    List<ProjectTagAndAmount> getMoreExpansiveTags(LocalDate initialPeriod, LocalDate finalPeriod, Long userId );
+    List<ProjectTagAndAmount> getMoreExpansiveTagsByPeriod(LocalDate initialPeriod, LocalDate finalPeriod, Long userId );
+
+    @Query(value = "SELECT tag, amount FROM Spending WHERE user_id = ?1 GROUP BY tag ORDER BY amount DESC LIMIT 4", nativeQuery = true)
+    List<ProjectTagAndAmount> getMoreExpansiveTags(Long userId );
 }

@@ -29,11 +29,18 @@ public class AccountingController {
         return accountingService.overview(LocalDate.parse(period));
     }
 
+    @GetMapping("/expansive-tags-by-period")
+    @ResponseBody
+    public List<ProjectTagAndAmount> expansiveTagsByPeriod(@Nullable @RequestParam String initialPeriod, @Nullable @RequestParam String finalPeriod) {
+
+        return accountingService.expansiveTagsByPeriod(initialPeriod, finalPeriod);
+    }
+
     @GetMapping("/expansive-tags")
     @ResponseBody
-    public List<ProjectTagAndAmount> expansiveTags(@Nullable @RequestParam String initialPeriod, @Nullable @RequestParam String finalPeriod) {
+    public List<ProjectTagAndAmount> expansiveTags() {
 
-        return accountingService.expansiveTags(initialPeriod, finalPeriod);
+        return accountingService.expansiveTags();
     }
 
 }

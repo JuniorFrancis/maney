@@ -11,6 +11,7 @@ public interface AccountingService {
 
     AccountingResponse overview(LocalDate dateToQuery);
 
-    List<ProjectTagAndAmount> expansiveTags(@Nullable String initialPeriod, @Nullable String finalPeriod);
+    List<ProjectTagAndAmount> expansiveTagsByPeriod(@Nullable String initialPeriod, @Nullable String finalPeriod);
 
+    List<ProjectTagAndAmount> expansiveTags();
 }

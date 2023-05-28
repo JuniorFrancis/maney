@@ -56,7 +56,7 @@ public class AccountingServiceImpl implements AccountingService {
         return toAccountingResponse(spending, revenues, dateToQuery);
     }
 
-    public List<ProjectTagAndAmount> expansiveTags(@Nullable String initialPeriod, @Nullable String finalPeriod){
+    public List<ProjectTagAndAmount> expansiveTagsByPeriod(@Nullable String initialPeriod, @Nullable String finalPeriod){
 
         LocalDate finalPeriodToQuery = LocalDate.now();
         LocalDate initialPeriodToQuery = finalPeriodToQuery.minusYears(1);
@@ -68,5 +68,10 @@ public class AccountingServiceImpl implements AccountingService {
             finalPeriodToQuery = LocalDate.parse(finalPeriod);
         }
 
-        return spendingRepository.getMoreExpansiveTags(initialPeriodToQuery, finalPeriodToQuery, userId);}
+        return spendingRepository.getMoreExpansiveTagsByPeriod(initialPeriodToQuery, finalPeriodToQuery, userId);}
+
+    public List<ProjectTagAndAmount> expansiveTags() {
+        Long userId = userHandler.getCurrentUser().getId();
+        return spendingRepository.getMoreExpansiveTags(userId);
+    }
 }
