@@ -1,6 +1,7 @@
 package com.maney.api.controller;
 
 import com.maney.api.model.responses.AccountingResponse;
+import com.maney.api.repository.projects.ProjectTagAndAmount;
 import com.maney.api.service.impl.AccountingServiceImpl;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/accounting")
@@ -27,11 +29,18 @@ public class AccountingController {
         return accountingService.overview(LocalDate.parse(period));
     }
 
+    @GetMapping("/expansive-tags-by-period")
+    @ResponseBody
+    public List<ProjectTagAndAmount> expansiveTagsByPeriod(@Nullable @RequestParam String initialPeriod, @Nullable @RequestParam String finalPeriod) {
+
+        return accountingService.expansiveTagsByPeriod(initialPeriod, finalPeriod);
+    }
+
     @GetMapping("/expansive-tags")
     @ResponseBody
-    public AccountingResponse expansiveTags(@Nullable @RequestParam String initialPeriod, @Nullable @RequestParam String finalPeriod) {
+    public List<ProjectTagAndAmount> expansiveTags() {
 
-        return accountingService.expansiveTags(initialPeriod, finalPeriod);
+        return accountingService.expansiveTags();
     }
 
 }
