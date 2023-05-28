@@ -6,6 +6,7 @@ import com.maney.api.model.Revenue;
 import com.maney.api.model.Spending;
 import com.maney.api.model.responses.AccountingResponse;
 import com.maney.api.repository.SpendingRepository;
+import com.maney.api.repository.projects.ProjectTagAndAmount;
 import com.maney.api.service.AccountingService;
 import com.maney.api.handlers.DateHandler;
 import jakarta.annotation.Nullable;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -56,10 +56,11 @@ public class AccountingServiceImpl implements AccountingService {
         return toAccountingResponse(spending, revenues, dateToQuery);
     }
 
-    public AccountingResponse expansiveTags(@Nullable String initialPeriod, @Nullable String finalPeriod){
+    public List<ProjectTagAndAmount> expansiveTags(@Nullable String initialPeriod, @Nullable String finalPeriod){
 
-        LocalDate initialPeriodToQuery = LocalDate.now();
-        LocalDate finalPeriodToQuery = initialPeriodToQuery.minusYears(1);
+        LocalDate finalPeriodToQuery = LocalDate.now();
+        LocalDate initialPeriodToQuery = finalPeriodToQuery.minusYears(1);
+
         Long userId = userHandler.getCurrentUser().getId();
 
         if(initialPeriod != null && finalPeriod != null) {
@@ -67,9 +68,5 @@ public class AccountingServiceImpl implements AccountingService {
             finalPeriodToQuery = LocalDate.parse(finalPeriod);
         }
 
-        spendingRepository.getMoreExpansiveTags(userId, initialPeriodToQuery, finalPeriodToQuery);
-
-
-        return new AccountingResponse();
-    }
+        return spendingRepository.getMoreExpansiveTags(initialPeriodToQuery, finalPeriodToQuery, userId);}
 }
