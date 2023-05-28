@@ -1,5 +1,6 @@
 package com.maney.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maney.api.constants.RevenueType;
 import jakarta.persistence.*;
 
@@ -46,6 +47,7 @@ public class Revenue {
     private LocalDateTime updatedAt;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
     public Long getId() {
         return id;

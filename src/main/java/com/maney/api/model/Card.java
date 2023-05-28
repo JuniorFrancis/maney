@@ -1,5 +1,6 @@
 package com.maney.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maney.api.constants.Bank;
 import com.maney.api.constants.Brand;
 import jakarta.persistence.*;
@@ -49,6 +50,7 @@ public class Card {
     private String lastDigits;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     public Integer getDueDay() {
