@@ -23,6 +23,9 @@ public class SpendingController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody List<Spending> spending) {
 
+        //TODO Retirar register do path
+        //TODO Retornar apenas status code
+
         spending.forEach( spent -> {
             spendingService.register(spent);
         });
@@ -39,7 +42,7 @@ public class SpendingController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public Optional<Spending> spent(@PathVariable String id) {
+    public Spending spent(@PathVariable String id) {
 
         return spendingService.getSpent(Long.valueOf(id));
     }

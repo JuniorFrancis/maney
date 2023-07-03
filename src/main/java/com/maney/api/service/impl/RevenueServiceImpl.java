@@ -31,26 +31,25 @@ public class RevenueServiceImpl implements RevenueService {
     @Override
     public Revenue create(Revenue revenue) {
 
-        checkIsNotZero(revenue.getAmount());
-        checkNotNull(revenue.getRevenueType());
+        validateRevenueAmount(revenue.getAmount());
 
         if(revenue.getFixed().equals(Boolean.FALSE) && revenue.getPaymentDate() == null) {
-            throw new DefaultException("Para um recebimento não fixo, é obrigatório o payment date");
+            throw new IllegalArgumentException("PaymentDate is necessary to fixed payment");
         }
-        revenue.setUser( userHandler.getCurrentUser());
+
+        revenue.setUser(userHandler.getCurrentUser());
         return revenueRepository.save(revenue);
     }
 
     @Override
     public Optional<Revenue> getRevenue(Long id) {
-        checkIsNotZero(id);
-        Long userId = userHandler.getCurrentUser().getId();
+        Long userId = userHandler.getCurrentUserId();
         return revenueRepository.findByIdAndUserId(id, userId);
     }
 
     @Override
     public List<Revenue> getRevenues() {
-        Long userId = userHandler.getCurrentUser().getId();
+        Long userId = userHandler.getCurrentUserId();
         return revenueRepository.findByUserId(userId);
     }
 }

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.maney.api.handlers.AccountingHandler.toAccountingResponse;
-import static com.maney.api.handlers.ValidatorHandler.checkNotNull;
+import static com.maney.api.handlers.ValidatorHandler.isValidDate;
 
 @Service
 public class AccountingServiceImpl implements AccountingService {
@@ -40,20 +40,22 @@ public class AccountingServiceImpl implements AccountingService {
 
     private final UserHandler userHandler;
 
-    public AccountingResponse overview(LocalDate dateToQuery) {
+    public AccountingResponse overview(String dateToQuery) {
         Long userId = userHandler.getCurrentUser().getId();
-        checkNotNull(dateToQuery);
+        isValidDate(dateToQuery);
+
+        LocalDate date = LocalDate.parse(dateToQuery);
 
         ArrayList<Spending> spending = new ArrayList<>();
         List<Revenue> revenues = revenueService.getRevenues();
-        Map<Card, List<LocalDate>> periods = dateHandler.parsePeriodToAllCards(dateToQuery);
+        Map<Card, List<LocalDate>> periods = dateHandler.parsePeriodToAllCards(date);
 
         periods.forEach( (card, dates) -> {
             List<Spending> currentSpending = spendingRepository.findByDateSpendingBetweenAndCardAndUserId(dates.get(0), dates.get(1), card, userId);
             spending.addAll(currentSpending);
         });
 
-        return toAccountingResponse(spending, revenues, dateToQuery);
+        return toAccountingResponse(spending, revenues, date);
     }
 
     public List<ProjectTagAndAmount> expansiveTagsByPeriod(@Nullable String initialPeriod, @Nullable String finalPeriod){
@@ -61,7 +63,7 @@ public class AccountingServiceImpl implements AccountingService {
         LocalDate finalPeriodToQuery = LocalDate.now();
         LocalDate initialPeriodToQuery = finalPeriodToQuery.minusYears(1);
 
-        Long userId = userHandler.getCurrentUser().getId();
+        Long userId = userHandler.getCurrentUserId();
 
         if(initialPeriod != null && finalPeriod != null) {
             initialPeriodToQuery = LocalDate.parse(initialPeriod);
@@ -71,7 +73,7 @@ public class AccountingServiceImpl implements AccountingService {
         return spendingRepository.getMoreExpansiveTagsByPeriod(initialPeriodToQuery, finalPeriodToQuery, userId);}
 
     public List<ProjectTagAndAmount> expansiveTags() {
-        Long userId = userHandler.getCurrentUser().getId();
+        Long userId = userHandler.getCurrentUserId();
         return spendingRepository.getMoreExpansiveTags(userId);
     }
 }

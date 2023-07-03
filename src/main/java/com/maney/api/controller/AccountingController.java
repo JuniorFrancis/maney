@@ -26,7 +26,7 @@ public class AccountingController {
     @ResponseBody
     public AccountingResponse overview(@Nonnull @RequestParam String period) {
 
-        return accountingService.overview(LocalDate.parse(period));
+        return accountingService.overview(period);
     }
 
     @GetMapping("/expansive-tags-by-period")
