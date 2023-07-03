@@ -1,6 +1,7 @@
 package com.maney.api.service.impl;
 
 import com.maney.api.constants.Role;
+import com.maney.api.exceptions.AlreadyExistingUsernameException;
 import com.maney.api.model.User;
 import com.maney.api.model.request.AuthenticationRequest;
 import com.maney.api.model.request.RegisterRequest;
@@ -11,12 +12,9 @@ import com.maney.api.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import static com.maney.api.handlers.ValidatorHandler.checkNotNull;
-
-import java.util.Optional;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -42,6 +40,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
+                () -> new UsernameNotFoundException("Invalid Credentials")
+        );
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -49,11 +52,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 )
         );
 
-        Optional<User> user = userRepository.findByEmail(request.getEmail());
-
-        checkNotNull(user);
-
-        String jwtToken = jwtService.generateToken(user.get());
+        String jwtToken = jwtService.generateToken(user);
 
         return new AuthenticationResponse.Builder()
                 .withToken(jwtToken)
@@ -63,6 +62,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
+
+            if(userRepository.existsByEmail(request.getEmail())){
+                throw new AlreadyExistingUsernameException("User already existing");
+            }
+
            User user = new User.Builder()
                    .withFirstname(request.getFirstname())
                    .withEmail(request.getEmail())

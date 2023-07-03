@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface AccountingService {
 
-    AccountingResponse overview(LocalDate dateToQuery);
+    AccountingResponse overview(String dateToQuery);
 
     List<ProjectTagAndAmount> expansiveTagsByPeriod(@Nullable String initialPeriod, @Nullable String finalPeriod);
 

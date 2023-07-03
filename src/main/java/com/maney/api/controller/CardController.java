@@ -33,7 +33,7 @@ public class CardController {
 
     @ResponseBody
     @GetMapping("/{id}")
-    public Optional<Card> getCard(@PathVariable("id") Long id) {
+    public Card getCard(@PathVariable("id") Long id) {
 
         return cardService.getCard(id);
     }

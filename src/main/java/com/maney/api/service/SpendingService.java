@@ -4,7 +4,6 @@ import com.maney.api.model.Spending;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public interface SpendingService {
 
@@ -12,7 +11,7 @@ public interface SpendingService {
 
     List<Spending> getSpending();
 
-    Optional<Spending> getSpent(Long id);
+    Spending getSpent(Long id);
 
     List<Spending> byPeriod(LocalDate period, List<String> brand);
 

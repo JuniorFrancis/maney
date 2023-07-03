@@ -11,7 +11,7 @@ public interface CardService {
 
     List<Card> getCards();
 
-    Optional<Card> getCard(Long id) ;
+    Card getCard(Long id) ;
 
 
 }

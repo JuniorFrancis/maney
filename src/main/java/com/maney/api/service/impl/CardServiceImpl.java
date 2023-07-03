@@ -32,18 +32,18 @@ public class CardServiceImpl implements CardService {
     }
 
     public List<Card> getCards() {
-        Long userId = userHandler.getCurrentUser().getId();
+        Long userId = userHandler.getCurrentUserId();
         return cardRepository.findByUserId(userId);
     }
 
-    public Optional<Card> getCard(Long id) {
+    public Card getCard(Long id) {
 
         checkNotNull(id);
 
         Long userId = userHandler.getCurrentUser().getId();
-        Optional<Card> card = cardRepository.findByIdAndUserId(id, userId);
-
-        isCardPresent(card, "Id {id} não encontrado");
+        Card card = cardRepository.findByIdAndUserId(id, userId).orElseThrow(
+                () -> new IllegalArgumentException("Card not found")
+        );
 
         return card;
     }

@@ -3,6 +3,10 @@ package com.maney.api.handlers;
 import com.maney.api.exceptions.DefaultException;
 import com.maney.api.model.Card;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class ValidatorHandler {
@@ -27,8 +31,22 @@ public class ValidatorHandler {
 
     public static <T> void checkNotNull(T reference) {
          if(reference == null) {
-             throw new DefaultException("nulo");
+             throw new IllegalArgumentException("Parameter is null");
          }
+    }
+
+    public static void isValidDate(String dateString){
+        checkNotNull(dateString);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        format.setLenient(false);
+
+        try {
+            format.parse(dateString);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Invalid date to query");
+        }
     }
 
     public static void checkNotEmpty(String value) {
@@ -39,8 +57,13 @@ public class ValidatorHandler {
 
     public static void checkIsNotZero(Integer value) {
         if(value <= 0) {
-            throw new DefaultException("");
+            throw new IllegalArgumentException("Amount can not be zero");
         }
+    }
+
+    public static void validateRevenueAmount(Integer amount){
+        checkIsNotZero(amount);
+        checkNotNull(amount);
     }
 
     public static void checkIsNotZero(Long value) {

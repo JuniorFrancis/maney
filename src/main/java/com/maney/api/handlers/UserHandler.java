@@ -4,6 +4,7 @@ import com.maney.api.model.User;
 import com.maney.api.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,7 +20,18 @@ public class UserHandler {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = ((UserDetails)principal).getUsername();
 
-        return userRepository.findByEmail(email).get();
+        return userRepository.findByEmail(email).orElseThrow(
+            () -> new UsernameNotFoundException("User not found")
+        );
 
+    }
+
+    public Long getCurrentUserId() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = ((UserDetails)principal).getUsername();
+
+        User user = userRepository.findByEmail(email).orElseThrow( () -> new UsernameNotFoundException("User not found"));
+
+        return user.getId();
     }
 }

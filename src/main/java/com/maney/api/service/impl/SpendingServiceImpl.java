@@ -11,12 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.maney.api.handlers.ValidatorHandler.checkNotNull;
-import static com.maney.api.handlers.ValidatorHandler.isCardPresent;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SpendingServiceImpl implements SpendingService {
@@ -42,41 +40,45 @@ public class SpendingServiceImpl implements SpendingService {
 
     @Override
     public List<Spending> getSpending() {
-        Long userId = userHandler.getCurrentUser().getId();
+        Long userId = userHandler.getCurrentUserId();
         return spendingRepository.findByUserId(userId);
     }
 
     @Override
-    public Optional<Spending> getSpent(Long id) {
-        Long userId = userHandler.getCurrentUser().getId();
-        return spendingRepository.findByIdAndUserId(id, userId);
+    public Spending getSpent(Long id) {
+        Long userId = userHandler.getCurrentUserId();
+        Spending spent = spendingRepository.findByIdAndUserId(id, userId).orElseThrow(
+            () -> new IllegalArgumentException("Spending not found")
+        );
+
+        return spent;
     }
 
     @Override
     public List<Spending> byPeriod(LocalDate dateToQuery, List<String> cardIds){
         //TODO FAZER PAGINAÇÃO DESSE RETORNO
         ArrayList<Spending> spending = new ArrayList<>();
-        Long userId = userHandler.getCurrentUser().getId();
+        Long userId = userHandler.getCurrentUserId();
 
         checkNotNull(dateToQuery);
 
         cardIds.forEach( id -> {
-            Optional<Card> currentCard = cardRepository.findById(Long.parseLong(id));
+            Card currentCard = cardRepository.findById(Long.parseLong(id)).orElseThrow(
+                () -> new IllegalArgumentException("Card not found")
+            );
 
-            isCardPresent(currentCard);
-            List<LocalDate> period = dateHandler.parsePeriod(dateToQuery, currentCard.get());
+            List<LocalDate> period = dateHandler.parsePeriod(dateToQuery, currentCard);
 
             LocalDate startDate = period.get(0);
             LocalDate endDate = period.get(1);
-
+            //TODO return a o proprio retorno da repository
             spending.addAll(
                     spendingRepository.findByDateSpendingBetweenAndCardAndUserId(
                             startDate,
                             endDate,
-                            currentCard.get(),
+                            currentCard,
                             userId
                     ));
-
         });
 
         return spending;
