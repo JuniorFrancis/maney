@@ -1,6 +1,6 @@
 package com.maney.api.handlers;
 
-import com.maney.api.model.errors.DefaultErrorResponse;
+import com.maney.api.models.errors.DefaultErrorResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,8 @@
 package com.maney.api.handlers;
 
-import com.maney.api.model.Revenue;
-import com.maney.api.model.Spending;
-import com.maney.api.model.responses.AccountingResponse;
+import com.maney.api.models.Revenue;
+import com.maney.api.models.Spending;
+import com.maney.api.models.responses.AccountingResponse;
 
 import java.time.LocalDate;
 import java.util.List;

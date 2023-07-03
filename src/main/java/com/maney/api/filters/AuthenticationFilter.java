@@ -1,6 +1,6 @@
 package com.maney.api.filters;
 
-import com.maney.api.service.impl.JwtServiceImpl;
+import com.maney.api.services.impl.JwtServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,8 +19,6 @@ import java.io.IOException;
 
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {
-
-    //TODO TESTAR SE A CLASSE ESTÁ DANDO CERTO. NO TUTORIAL PEDE UM ARGSCONTRUCTOR AQUI ( CONSTRUTOR COM TODOS OS PARAMETROS )
 
     @Autowired
     public AuthenticationFilter(JwtServiceImpl jwtService, UserDetailsService userDetailsService) {

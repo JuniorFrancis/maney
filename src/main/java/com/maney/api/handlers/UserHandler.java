@@ -1,7 +1,7 @@
 package com.maney.api.handlers;
 
-import com.maney.api.model.User;
-import com.maney.api.repository.UserRepository;
+import com.maney.api.models.User;
+import com.maney.api.repositories.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
