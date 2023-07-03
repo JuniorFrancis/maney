@@ -1,8 +1,8 @@
 package com.maney.api.handlers;
 
 import com.maney.api.constants.Brand;
-import com.maney.api.model.Card;
-import com.maney.api.repository.CardRepository;
+import com.maney.api.models.Card;
+import com.maney.api.repositories.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,8 +20,6 @@ public class DateHandler {
     private final Integer DAYS_TO_CLOSE_CARD = 7;
 
     public List<LocalDate> parsePeriod(LocalDate rawDate, Card card){
-        //TODO Montar Strateg Pattern to chose the logic to less days
-        //TODO Transformar isso em annotation para que possamos passar o daysToCloseCard diretamente aqui.
         Integer dueDay = card.getDueDay();
 
         LocalDate initialDate = rawDate.withDayOfMonth(dueDay).minusDays(DAYS_TO_CLOSE_CARD);

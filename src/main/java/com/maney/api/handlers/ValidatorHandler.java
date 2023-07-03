@@ -1,7 +1,7 @@
 package com.maney.api.handlers;
 
 import com.maney.api.exceptions.DefaultException;
-import com.maney.api.model.Card;
+import com.maney.api.models.Card;
 
 import java.text.DateFormat;
 import java.text.ParseException;

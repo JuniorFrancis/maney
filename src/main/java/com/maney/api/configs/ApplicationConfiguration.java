@@ -1,8 +1,7 @@
 package com.maney.api.configs;
 
-import com.maney.api.repository.UserRepository;
+import com.maney.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
