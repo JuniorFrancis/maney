@@ -3,6 +3,7 @@ package com.maney.api.controllers;
 import com.maney.api.models.Revenue;
 import com.maney.api.services.impl.RevenueServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class RevenueController {
 
     @ResponseBody
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Revenue create(@RequestBody Revenue revenue) {
 
         return revenueService.create(revenue);
