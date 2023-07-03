@@ -18,14 +18,15 @@ public class AuthenticationController {
 
     private final AuthenticationServiceImpl authenticationService;
 
-    @PostMapping("/register")
+
     @ResponseBody
+    @PostMapping("/register")
     public AuthenticationResponse register(@RequestBody RegisterRequest authenticationRequest) {
         return authenticationService.register(authenticationRequest);
     }
 
-    @PostMapping("/authenticate")
     @ResponseBody
+    @PostMapping("/authenticate")
     public AuthenticationResponse authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
         return authenticationService.authenticate(authenticationRequest);
     }

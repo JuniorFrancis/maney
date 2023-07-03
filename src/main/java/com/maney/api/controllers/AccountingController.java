@@ -28,15 +28,15 @@ public class AccountingController {
         return accountingService.overview(period);
     }
 
-    @GetMapping("/expansive-tags-by-period")
     @ResponseBody
+    @GetMapping("/expansive-tags-by-period")
     public List<ProjectTagAndAmount> expansiveTagsByPeriod(@Nullable @RequestParam String initialPeriod, @Nullable @RequestParam String finalPeriod) {
 
         return accountingService.expansiveTagsByPeriod(initialPeriod, finalPeriod);
     }
 
-    @GetMapping("/expansive-tags")
     @ResponseBody
+    @GetMapping("/expansive-tags")
     public List<ProjectTagAndAmount> expansiveTags() {
 
         return accountingService.expansiveTags();

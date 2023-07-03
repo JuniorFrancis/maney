@@ -3,6 +3,7 @@ package com.maney.api.controllers;
 import com.maney.api.models.Card;
 import com.maney.api.services.impl.CardServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,22 +15,24 @@ public class CardController {
     @Autowired
     CardServiceImpl cardService;
 
-    @ResponseBody
+
     @PostMapping
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
     public Card create(@RequestBody Card card) {
 
         return cardService.create(card);
     }
 
-    @ResponseBody
     @GetMapping
+    @ResponseBody
     public List<Card> getCards() {
 
         return cardService.getCards();
     }
 
-    @ResponseBody
     @GetMapping("/{id}")
+    @ResponseBody
     public Card getCard(@PathVariable("id") Long id) {
 
         return cardService.getCard(id);
