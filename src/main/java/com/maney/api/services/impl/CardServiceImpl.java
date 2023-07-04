@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.maney.api.handlers.ValidatorHandler.checkNotNull;
-import static com.maney.api.handlers.ValidatorHandler.isCardPresent;
-
 @Service
 public class CardServiceImpl implements CardService {
 
@@ -37,11 +34,9 @@ public class CardServiceImpl implements CardService {
 
     public Card getCard(Long id) {
 
-        checkNotNull(id);
-
         Long userId = userHandler.getCurrentUser().getId();
         Card card = cardRepository.findByIdAndUserId(id, userId).orElseThrow(
-                () -> new IllegalArgumentException("Card not found")
+                () -> new IllegalArgumentException("received card id not exists")
         );
 
         return card;

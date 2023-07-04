@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.maney.api.handlers.AccountingHandler.toAccountingResponse;
+import static com.maney.api.handlers.ObjectMapperHandler.toAccountingResponse;
 import static com.maney.api.handlers.ValidatorHandler.isValidDate;
 
 @Service
@@ -41,17 +41,23 @@ public class AccountingServiceImpl implements AccountingService {
     private final UserHandler userHandler;
 
     public AccountingResponse overview(String dateToQuery) {
-        Long userId = userHandler.getCurrentUser().getId();
+
         isValidDate(dateToQuery);
 
+        Long userId = userHandler.getCurrentUserId();
         LocalDate date = LocalDate.parse(dateToQuery);
-
         ArrayList<Spending> spending = new ArrayList<>();
+
         List<Revenue> revenues = revenueService.getRevenues();
         Map<Card, List<LocalDate>> periods = dateHandler.parsePeriodToAllCards(date);
 
         periods.forEach( (card, dates) -> {
-            List<Spending> currentSpending = spendingRepository.findByDateSpendingBetweenAndCardAndUserId(dates.get(0), dates.get(1), card, userId);
+            List<Spending> currentSpending = spendingRepository.findByDateSpendingBetweenAndCardAndUserId(
+                    dates.get(0),
+                    dates.get(1),
+                    card, userId
+            );
+
             spending.addAll(currentSpending);
         });
 
@@ -70,7 +76,8 @@ public class AccountingServiceImpl implements AccountingService {
             finalPeriodToQuery = LocalDate.parse(finalPeriod);
         }
 
-        return spendingRepository.getMoreExpansiveTagsByPeriod(initialPeriodToQuery, finalPeriodToQuery, userId);}
+        return spendingRepository.getMoreExpansiveTagsByPeriod(initialPeriodToQuery, finalPeriodToQuery, userId);
+    }
 
     public List<ProjectTagAndAmount> expansiveTags() {
         Long userId = userHandler.getCurrentUserId();

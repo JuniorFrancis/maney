@@ -1,15 +1,17 @@
 package com.maney.api.services;
 
 import com.maney.api.models.Revenue;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface RevenueService {
 
     Revenue create(Revenue revenue);
 
-    Optional<Revenue> getRevenue(Long id);
+    Revenue getRevenue(Long id);
 
     List<Revenue> getRevenues();
+
+    Page<Revenue> getRevenues(int page, int size);
 }

@@ -4,10 +4,11 @@ import com.maney.api.handlers.UserHandler;
 import com.maney.api.models.Revenue;
 import com.maney.api.repositories.RevenueRepository;
 import com.maney.api.services.RevenueService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.maney.api.handlers.ValidatorHandler.*;
 
@@ -39,14 +40,25 @@ public class RevenueServiceImpl implements RevenueService {
     }
 
     @Override
-    public Optional<Revenue> getRevenue(Long id) {
+    public Revenue getRevenue(Long id) {
         Long userId = userHandler.getCurrentUserId();
-        return revenueRepository.findByIdAndUserId(id, userId);
+        return revenueRepository.findByIdAndUserId(id, userId).orElseThrow(
+                () -> new IllegalArgumentException("received revenue id not exists")
+        );
+    }
+
+    @Override
+    public Page<Revenue> getRevenues(int page, int size) {
+        Long userId = userHandler.getCurrentUserId();
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return revenueRepository.findByUserId(userId, pageRequest);
     }
 
     @Override
     public List<Revenue> getRevenues() {
         Long userId = userHandler.getCurrentUserId();
+
         return revenueRepository.findByUserId(userId);
     }
 }
