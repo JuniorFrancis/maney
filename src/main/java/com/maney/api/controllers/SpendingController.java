@@ -1,11 +1,12 @@
 package com.maney.api.controllers;
 
 import com.maney.api.models.Spending;
+import com.maney.api.models.responses.SpendingResponse;
 import com.maney.api.services.impl.SpendingServiceImpl;
 import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -26,9 +27,9 @@ public class SpendingController {
 
     @GetMapping
     @ResponseBody
-    public List<Spending> spending() {
+    public Page<Spending> spending(@Nonnull int page, @Nonnull int size) {
 
-        return spendingService.getSpending();
+        return spendingService.getSpending(page, size);
     }
 
     @ResponseBody
@@ -40,8 +41,12 @@ public class SpendingController {
 
     @ResponseBody
     @GetMapping("/period")
-    public List<Spending> byPeriod(@Nonnull @RequestParam String period, @Nonnull @RequestParam List<String> brand) {
+    public SpendingResponse byPeriod(
+            @Nonnull @RequestParam String period,
+            @Nonnull @RequestParam List<String> brand,
+            @RequestParam int page,
+            @RequestParam int size) {
 
-        return spendingService.byPeriod(LocalDate.parse(period), brand);
+        return spendingService.byPeriod(LocalDate.parse(period), brand, page, size);
     }
 }

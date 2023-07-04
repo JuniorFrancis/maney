@@ -35,6 +35,12 @@ public class ValidatorHandler {
          }
     }
 
+    public static <T> void checkNotNull(T reference, String message) {
+        if(reference == null) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
     public static void isValidDate(String dateString){
         checkNotNull(dateString);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
