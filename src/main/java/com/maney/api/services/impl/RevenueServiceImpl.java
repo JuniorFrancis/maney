@@ -49,9 +49,6 @@ public class RevenueServiceImpl implements RevenueService {
 
     @Override
     public Page<Revenue> getRevenues(int page, int size) {
-        checkNotNull(page, "Page parameter cannot be null");
-        checkNotNull(size, "Size parameter cannot be null");
-
         Long userId = userHandler.getCurrentUserId();
         PageRequest pageRequest = PageRequest.of(page, size);
 

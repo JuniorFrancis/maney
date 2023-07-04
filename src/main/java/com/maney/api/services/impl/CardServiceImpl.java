@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.maney.api.handlers.ValidatorHandler.checkNotNull;
-import static com.maney.api.handlers.ValidatorHandler.isCardPresent;
-
 @Service
 public class CardServiceImpl implements CardService {
 

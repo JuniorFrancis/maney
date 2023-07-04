@@ -46,9 +46,6 @@ public class SpendingServiceImpl implements SpendingService {
 
     @Override
     public Page<Spending> getSpending(int page, int size) {
-        checkNotNull(page, "Page parameter cannot be null");
-        checkNotNull(size, "Size parameter cannot be null");
-
         Long userId = userHandler.getCurrentUserId();
         PageRequest pageRequest = PageRequest.of(page, size);
 
@@ -75,8 +72,8 @@ public class SpendingServiceImpl implements SpendingService {
         checkNotNull(dateToQuery);
 
         cardIds.forEach( id -> {
-            Card currentCard = cardRepository.findById(Long.parseLong((id))).orElseThrow(
-                    () -> new IllegalArgumentException("Card not found")
+            Card currentCard = cardRepository.findById(Long.parseLong(id)).orElseThrow(
+                () -> new IllegalArgumentException("Card not found")
             );
 
             List<LocalDate> period = dateHandler.parsePeriod(dateToQuery, currentCard);
@@ -96,5 +93,4 @@ public class SpendingServiceImpl implements SpendingService {
 
         return toSpendingResponse(spending);
     }
-
 }

@@ -27,7 +27,7 @@ public class SpendingController {
 
     @GetMapping
     @ResponseBody
-    public Page<Spending> spending(@Nonnull int page, @Nonnull int size) {
+    public Page<Spending> spending(int page, int size) {
 
         return spendingService.getSpending(page, size);
     }
