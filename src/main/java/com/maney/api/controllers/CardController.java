@@ -15,13 +15,12 @@ public class CardController {
     @Autowired
     CardServiceImpl cardService;
 
-
     @PostMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public Card create(@RequestBody Card card) {
+    public void create(@RequestBody Card card) {
 
-        return cardService.create(card);
+        cardService.create(card);
     }
 
     @GetMapping

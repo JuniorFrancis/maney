@@ -29,7 +29,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 
     @Override
-    public Revenue create(Revenue revenue) {
+    public void create(Revenue revenue) {
 
         validateRevenueAmount(revenue.getAmount());
 
@@ -38,7 +38,7 @@ public class RevenueServiceImpl implements RevenueService {
         }
 
         revenue.setUser(userHandler.getCurrentUser());
-        return revenueRepository.save(revenue);
+        revenueRepository.save(revenue);
     }
 
     @Override

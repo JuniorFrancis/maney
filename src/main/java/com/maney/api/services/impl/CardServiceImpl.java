@@ -22,9 +22,9 @@ public class CardServiceImpl implements CardService {
 
     private final UserHandler userHandler;
 
-    public Card create(Card card) {
+    public void create(Card card) {
         card.setUser(userHandler.getCurrentUser());
-        return cardRepository.save(card);
+        cardRepository.save(card);
     }
 
     public List<Card> getCards() {

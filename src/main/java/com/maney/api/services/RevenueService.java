@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RevenueService {
 
-    Revenue create(Revenue revenue);
+    void create(Revenue revenue);
 
     Revenue getRevenue(Long id);
 
