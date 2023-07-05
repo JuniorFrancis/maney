@@ -35,4 +35,11 @@ public class RevenueController {
 
         return revenueService.getRevenues(page, size);
     }
+
+    @ResponseBody
+    @GetMapping("/period")
+    public Page<Revenue> getRevenues(@RequestParam String period, @RequestParam int page, @RequestParam int size) {
+
+        return revenueService.getRevenuesByPeriod(period, page, size);
+    }
 }

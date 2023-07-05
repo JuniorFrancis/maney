@@ -14,4 +14,6 @@ public interface RevenueService {
     List<Revenue> getRevenues();
 
     Page<Revenue> getRevenues(int page, int size);
+
+    Page<Revenue> getRevenuesByPeriod(String period, int page, int size);
 }
