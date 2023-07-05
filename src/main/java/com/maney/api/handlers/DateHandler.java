@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.*;
 
+import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
+import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
+
 @Component
 public class DateHandler {
 
@@ -56,6 +59,11 @@ public class DateHandler {
 
         return periodsByCard;
 
+    }
+
+    public static List<LocalDate> parsePeriodToRevenue(LocalDate rawDate){
+
+        return List.of(rawDate.with(firstDayOfMonth()), rawDate.with(lastDayOfMonth()));
     }
 
 }

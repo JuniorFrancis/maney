@@ -8,8 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import static com.maney.api.handlers.DateHandler.parsePeriodToRevenue;
 import static com.maney.api.handlers.ValidatorHandler.*;
 
 
@@ -60,5 +62,20 @@ public class RevenueServiceImpl implements RevenueService {
         Long userId = userHandler.getCurrentUserId();
 
         return revenueRepository.findByUserId(userId);
+    }
+
+    @Override
+    public Page<Revenue> getRevenuesByPeriod(String rawPeriod, int page, int size) {
+        isValidDate(rawPeriod);
+
+        List<LocalDate> period = parsePeriodToRevenue(LocalDate.parse(rawPeriod));
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return revenueRepository.findByPaymentDateBetweenOrIsFixed(
+                period.get(0),
+                period.get(1),
+                true,
+                pageRequest
+        );
     }
 }
