@@ -17,9 +17,9 @@ public class RevenueController {
     @ResponseBody
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Revenue create(@RequestBody Revenue revenue) {
+    public void create(@RequestBody Revenue revenue) {
 
-        return revenueService.create(revenue);
+        revenueService.create(revenue);
     }
 
     @ResponseBody

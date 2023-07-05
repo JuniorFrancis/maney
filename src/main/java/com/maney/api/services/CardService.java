@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CardService {
 
-    Card create(Card card) ;
+    void create(Card card) ;
 
     List<Card> getCards();
 
