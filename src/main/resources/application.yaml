@@ -9,10 +9,8 @@ spring:
     url: jdbc:mysql://localhost:3306/maney
     username: root
   jpa:
-    show-sql: true
     properties:
       hibernate:
-        format_sql: true
         ddl:
           auto: update
   sql:
